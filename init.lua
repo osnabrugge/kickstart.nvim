@@ -89,7 +89,17 @@ P.S. You can delete this when you're done too. It's your config now! :)
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.clipboard = "unnamedplus"
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.clipboard.osc52").copy,
+    ["*"] = require("vim.clipboard.osc52").copy,
+  },
+  paste = {
+    ["+"] = require("vim.clipboard.osc52").paste,
+    ["*"] = require("vim.clipboard.osc52").paste,
+  },
+}
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
