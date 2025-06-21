@@ -107,7 +107,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
-require("kickstart.plugins")
+require("lazy").setup("kickstart.plugins")
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
