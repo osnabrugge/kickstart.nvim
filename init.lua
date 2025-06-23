@@ -256,21 +256,23 @@ require('lazy').setup({
       require("mason").setup()
     end,
   },
-  },
   {
-    'NMAC427/guess-indent.nvim',
+    "NMAC427/guess-indent.nvim",
   },
   {
     opts = {
       signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
+        add        = { text = '+' },
+        change     = { text = '~' },
+        delete     = { text = '_' },
+        topdelete  = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+    },
   },
 --
 -- Here is a more advanced example where we pass configuration
-}})
+})
 -- options to `gitsigns.nvim`.
 --
 -- See `:help gitsigns` to understand what the configuration keys do
