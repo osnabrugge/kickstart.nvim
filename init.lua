@@ -252,20 +252,18 @@ require('lazy').setup({
   {
     "williamboman/mason.nvim",
     cmd = { "Mason", "MasonInstall", "MasonUpdate" },
-    config = function()
-      require("mason").setup()
-    end,
+    config = function() require("mason").setup() end,
   },
   "NMAC427/guess-indent.nvim",
   {
     "lewis6991/gitsigns.nvim",
     opts = {
       signs = {
-        add        = { text = '+' },
-        change     = { text = '~' },
-        delete     = { text = '_' },
-        topdelete  = { text = '‾' },
-        changedelete = { text = '~' },
+        add         = { text = '+' },
+        change      = { text = '~' },
+        delete      = { text = '_' },
+        topdelete   = { text = '‾' },
+        changedelete= { text = '~' },
       },
     },
   },
@@ -274,25 +272,25 @@ require('lazy').setup({
     event = "VimEnter",
     opts = { delay = 0, icons = { mappings = vim.g.have_nerd_font } },
   },
-  -- …any other plugins…
+  -- add any remaining plugins here...
 })
 
 -- After Lazy has installed your plugins, configure Mason-LSP:
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 local servers = { lua_ls = { settings = { Lua = {} } } }
 
-require("mason-tool-installer").setup {
+require('mason-tool-installer').setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-require("mason-lspconfig").setup {
+require('mason-lspconfig').setup {
   ensure_installed = {},
   automatic_installation = false,
   handlers = {
     function(server_name)
       local conf = servers[server_name] or {}
-      conf.capabilities = vim.tbl_deep_extend("force", {}, capabilities, conf.capabilities or {})
-      require("lspconfig")[server_name].setup(conf)
+      conf.capabilities = vim.tbl_deep_extend('force', {}, capabilities, conf.capabilities or {})
+      require('lspconfig')[server_name].setup(conf)
     end,
   },
 }
