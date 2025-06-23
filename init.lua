@@ -249,43 +249,51 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- … your other plugins …
   {
-    "williamboman/mason.nvim",
-    cmd = { "Mason", "MasonInstall", "MasonUpdate" },
-    config = function() require("mason").setup() end,
+    "saghen/blink.cmp",
+    event  = "InsertEnter",
+    config = function()
+      require("blink.cmp").setup()
+    end,
   },
-  -- install the mason-tool-installer helper
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "mason.nvim" },
   },
-  -- install the bridge between Mason and lspconfig
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim", "nvim-lspconfig" },
   },
-  -- your other plugins…
-  "saghen/blink.cmp",
-  -- etc.
 })
 
--- now these will actually be available:
-local capabilities = require("blink.cmp").get_lsp_capabilities()
-local servers = { lua_ls = { settings = { Lua = {} } } }
+-- [[ LSP setup with Mason and Blink.cmp ]]
 
+-- 1) Build your “base” capabilities and wrap them:
+local base_caps   = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require("blink.cmp").get_lsp_capabilities(base_caps)
+
+-- 2) List the LSP servers you want Mason to ensure:
+local servers = {
+  lua_ls = { settings = { Lua = {} } },
+  -- add other servers here if you like…
+}
+
+-- 3) Install those servers via mason-tool-installer
 require("mason-tool-installer").setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
+-- 4) Hook into mason-lspconfig to configure each server
 require("mason-lspconfig").setup {
-  ensure_installed = {},
+  ensure_installed        = {},
   automatic_installation = false,
   handlers = {
     function(server_name)
-      local conf = servers[server_name] or {}
-      conf.capabilities = vim.tbl_deep_extend("force", {}, capabilities, conf.capabilities or {})
-      require("lspconfig")[server_name].setup(conf)
+      local opts = vim.tbl_deep_extend("force", {}, servers[server_name] or {}, {
+        capabilities = capabilities,
+      })
+      require("lspconfig")[server_name].setup(opts)
     end,
   },
 }
-
