@@ -249,6 +249,24 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    "ojroques/nvim-osc52",         -- example plugin requiring a cargo build
+    build  = "cargo build --release",
+    config = function()
+      require("osc52").setup {
+        max_length = 0,
+        silent     = true,
+        trim       = false,
+      }
+      vim.keymap.set({ "n","v" }, "<leader>y", function()
+        require("osc52").copy_visual()
+      end, { desc = "OSC52 Copy" })
+      vim.keymap.set("n", "<leader>Y", function()
+        require("osc52").copy_register("+")
+      end, { desc = "OSC52 Copy +" })
+    end,
+  },  -- ← add this comma
+
   -- 1) mason itself
   {
     "williamboman/mason.nvim",
@@ -256,12 +274,11 @@ require('lazy').setup({
     config = function() require("mason").setup() end,
   },
 
-  -- 2) your mason-tool-installer plugin
+  -- 2) mason-tool-installer
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "williamboman/mason.nvim" },
     config = function()
-      -- servers must be in scope here:
       local servers = { lua_ls = { settings = { Lua = {} } } }
       require("mason-tool-installer").setup {
         ensure_installed = vim.tbl_keys(servers),
@@ -287,14 +304,13 @@ require('lazy').setup({
         function(server_name)
           require("lspconfig")[server_name].setup {
             capabilities = capabilities,
-            -- merge in any servers[server_name] settings here…
           }
         end,
       }
     end,
   },
 
-  -- 4) blink.cmp as before
+  -- 4) blink.cmp
   {
     "saghen/blink.cmp",
     event  = "InsertEnter",
