@@ -1,0 +1,56 @@
+{
+    "cSpell.words": [
+        "autocommand",
+        "autopairs",
+        "bufnr",
+        "checkhealth",
+        "dapui",
+        "diffthis",
+        "dpkg",
+        "earch",
+        "eleted",
+        "elif",
+        "eset",
+        "gitsigns",
+        "hange",
+        "hardreset",
+        "inko",
+        "jsonlint",
+        "keyrings",
+        "leoluz",
+        "luarc",
+        "lukas",
+        "mapleader",
+        "maplocalleader",
+        "mfussenegger",
+        "neotest",
+        "norl",
+        "numhl",
+        "oggle",
+        "ojroques",
+        "rcarriga",
+        "reineke",
+        "showmode",
+        "signcolumn",
+        "tage",
+        "texthl",
+        "tflint",
+        "unnamedplus",
+        "verstr",
+        "windwp"
+    ],
+    "cSpell.ignoreWords": [
+        "Munif",
+        "Neotree",
+        "Tanjim",
+        "autocmd",
+        "hjkl",
+        "regname"
+    ],
+    "Lua.diagnostics.globals": [
+        "vim"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-global"
+    ]
+}
