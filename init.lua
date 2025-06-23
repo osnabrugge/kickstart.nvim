@@ -278,6 +278,10 @@ require('lazy').setup({
       require('blink.cmp').setup()
     end,
   },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    config = true,  -- or leave off config key if you don’t need to customize
+  },
   -- add any remaining plugins here...
 })
 
