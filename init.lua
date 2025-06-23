@@ -249,19 +249,52 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- 1) mason itself
   {
     "williamboman/mason.nvim",
     cmd    = { "Mason", "MasonInstall", "MasonUpdate" },
     config = function() require("mason").setup() end,
   },
+
+  -- 2) your mason-tool-installer plugin
   {
-    "neovim/nvim-lspconfig",
-    dependencies = { "mason.nvim" },
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      -- servers must be in scope here:
+      local servers = { lua_ls = { settings = { Lua = {} } } }
+      require("mason-tool-installer").setup {
+        ensure_installed = vim.tbl_keys(servers),
+      }
+    end,
   },
+
+  -- 3) mason-lspconfig + lspconfig
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "mason.nvim", "nvim-lspconfig" },
+    dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      local capabilities = require("blink.cmp").get_lsp_capabilities(
+        vim.lsp.protocol.make_client_capabilities()
+      )
+      local servers = { lua_ls = { settings = { Lua = {} } } }
+
+      require("mason-lspconfig").setup {
+        ensure_installed        = {},
+        automatic_installation = false,
+      }
+      require("mason-lspconfig").setup_handlers {
+        function(server_name)
+          require("lspconfig")[server_name].setup {
+            capabilities = capabilities,
+            -- merge in any servers[server_name] settings here…
+          }
+        end,
+      }
+    end,
   },
+
+  -- 4) blink.cmp as before
   {
     "saghen/blink.cmp",
     event  = "InsertEnter",
@@ -270,26 +303,3 @@ require('lazy').setup({
     end,
   },
 })
-
-local base_caps   = vim.lsp.protocol.make_client_capabilities()
-local capabilities = require("blink.cmp").get_lsp_capabilities(base_caps)
-local servers = {
-  lua_ls = { settings = { Lua = {} } },
-}
-
-require("mason-tool-installer").setup {
-  ensure_installed = vim.tbl_keys(servers),
-}
-
-require("mason-lspconfig").setup {
-  ensure_installed        = {},
-  automatic_installation = false,
-  handlers = {
-    function(server_name)
-      local opts = vim.tbl_deep_extend("force", {}, servers[server_name] or {}, {
-        capabilities = capabilities,
-      })
-      require("lspconfig")[server_name].setup(opts)
-    end,
-  },
-}
