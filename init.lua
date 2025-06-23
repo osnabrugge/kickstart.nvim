@@ -1,4 +1,3 @@
-
 --[[
 
 =====================================================================
@@ -85,11 +84,8 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
--- Set <space> as the leader key
--- Ensure this file is loaded by Neovim, not as a standalone Lua script, so that the `vim` global is available.
 ---@diagnostic disable: undefined-global
--- ...existing code...
--- ...existing code...
+-- Set <space> as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
