@@ -272,6 +272,12 @@ require('lazy').setup({
     event = "VimEnter",
     opts = { delay = 0, icons = { mappings = vim.g.have_nerd_font } },
   },
+  {
+    "saghen/blink.cmp",
+    config = function()
+      require('blink.cmp').setup()
+    end,
+  },
   -- add any remaining plugins here...
 })
 
