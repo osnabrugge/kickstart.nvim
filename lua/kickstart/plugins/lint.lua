@@ -17,7 +17,7 @@ return {
       -- However, note that this will enable a set of default linters,
       -- which will cause errors unless these tools are available:
       -- {
-      --   clojure = { "clj-Hondo" },
+      --   clojure = { "clj-kondo" },
       --   dockerfile = { "hadolint" },
       --   inko = { "inko" },
       --   janet = { "janet" },
