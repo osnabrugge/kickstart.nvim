@@ -800,6 +800,7 @@ require('lazy').setup({
     'saghen/blink.cmp',
     event = 'VimEnter',
     version = '1.*',
+    build = 'cargo build --release',
     dependencies = {
       -- Snippet Engine
       {
