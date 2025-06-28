@@ -259,7 +259,7 @@ require('lazy').setup({
         silent     = true,
         trim       = false,
       }
-      vim.keymap.set({ "n","v" }, "<leader>y", function()
+      vim.keymap.set("v", "<leader>y", function()
         require("osc52").copy_visual()
       end, { desc = "OSC52 Copy" })
       vim.keymap.set("n", "<leader>Y", function()
